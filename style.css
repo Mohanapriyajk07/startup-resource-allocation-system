@@ -1,27 +1,18 @@
-/* ================================================================
-   Startup Resource Allocation System — Stylesheet
-   ================================================================ */
-
-/* ---------- CSS Custom Properties ---------- */
 :root {
-    /* Base palette */
     --bg-primary: #0b0d17;
     --bg-secondary: #111427;
     --bg-surface: rgba(255, 255, 255, 0.04);
     --bg-glass: rgba(255, 255, 255, 0.06);
     --border-glass: rgba(255, 255, 255, 0.08);
 
-    /* Text */
     --text-primary: #e8eaf6;
     --text-secondary: #9ca3c4;
     --text-muted: #636b8a;
-
-    /* Accent */
+   
     --accent: #6366f1;
     --accent-light: #818cf8;
     --accent-glow: rgba(99, 102, 241, 0.35);
 
-    /* Priority colours */
     --priority-high: #22c55e;
     --priority-high-bg: rgba(34, 197, 94, 0.12);
     --priority-medium: #f59e0b;
@@ -29,7 +20,6 @@
     --priority-low: #ef4444;
     --priority-low-bg: rgba(239, 68, 68, 0.12);
 
-    /* Misc */
     --radius-sm: 8px;
     --radius-md: 14px;
     --radius-lg: 20px;
@@ -37,7 +27,6 @@
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---------- Reset ---------- */
 *,
 *::before,
 *::after {
@@ -60,7 +49,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- Animated Background Orbs ---------- */
 .bg-orbs {
     position: fixed;
     inset: 0;
@@ -119,7 +107,6 @@ body {
     }
 }
 
-/* ---------- App Container ---------- */
 .app-container {
     position: relative;
     z-index: 1;
@@ -128,7 +115,6 @@ body {
     padding: 32px 24px 48px;
 }
 
-/* ---------- Header ---------- */
 .app-header {
     display: flex;
     align-items: center;
@@ -158,7 +144,6 @@ body {
     margin-top: 2px;
 }
 
-/* ---------- Glass Card Utility ---------- */
 .glass-card {
     background: var(--bg-glass);
     border: 1px solid var(--border-glass);
@@ -168,7 +153,6 @@ body {
     padding: 32px;
 }
 
-/* ---------- Upload Section ---------- */
 .upload-section {
     text-align: center;
     animation: fadeInUp 0.7s ease-out 0.15s both;
@@ -200,7 +184,6 @@ body {
     font-family: "JetBrains Mono", "Fira Code", monospace;
 }
 
-/* ---------- Drop Zone ---------- */
 .drop-zone {
     position: relative;
     border: 2px dashed var(--border-glass);
@@ -260,7 +243,6 @@ body {
     min-height: 1.2em;
 }
 
-/* ---------- Button ---------- */
 .btn-primary {
     position: relative;
     display: inline-flex;
@@ -320,7 +302,6 @@ body {
     }
 }
 
-/* ---------- Error Banner ---------- */
 .error-banner {
     display: flex;
     align-items: flex-start;
@@ -366,7 +347,6 @@ body {
     white-space: pre-line;
 }
 
-/* ---------- Results Section ---------- */
 .results-section {
     margin-top: 32px;
 }
@@ -375,7 +355,6 @@ body {
     display: none;
 }
 
-/* ---------- Summary Cards Grid ---------- */
 .summary-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -451,7 +430,6 @@ body {
     color: var(--priority-low);
 }
 
-/* ---------- Priority Distribution Bar ---------- */
 .priority-bar-wrapper {
     margin-bottom: 24px;
     animation: fadeInUp 0.5s ease-out 0.35s both;
@@ -520,7 +498,6 @@ body {
     background: var(--priority-low);
 }
 
-/* ---------- Table ---------- */
 .table-wrapper {
     animation: fadeInUp 0.5s ease-out 0.45s both;
 }
@@ -668,7 +645,6 @@ tbody tr:nth-child(10) {
     color: var(--priority-low);
 }
 
-/* Priority Badge */
 .priority-badge {
     display: inline-block;
     padding: 4px 14px;
@@ -705,7 +681,6 @@ tbody tr:nth-child(10) {
     line-height: 1.5;
 }
 
-/* ---------- Footer ---------- */
 .app-footer {
     margin-top: 52px;
     text-align: center;
@@ -714,7 +689,6 @@ tbody tr:nth-child(10) {
     opacity: 0.65;
 }
 
-/* ---------- Animations ---------- */
 @keyframes fadeInDown {
     from {
         opacity: 0;
@@ -751,7 +725,6 @@ tbody tr:nth-child(10) {
     }
 }
 
-/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
     .app-container {
         padding: 20px 14px 36px;
@@ -785,7 +758,6 @@ tbody tr:nth-child(10) {
     }
 }
 
-/* ---------- Scrollbar ---------- */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -802,4 +774,5 @@ tbody tr:nth-child(10) {
 
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(255, 255, 255, 0.2);
+
 }
