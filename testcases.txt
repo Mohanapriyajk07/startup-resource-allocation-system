@@ -1,0 +1,45 @@
+TEST CASE 1 – Normal Scenario
+
+Input:
+
+Project	Impact	Urgency	Effort	Cost
+AI Tool	5	4	2	3
+
+Expected Output:
+
+High priority score
+Project ranked at top
+
+Result: PASS
+
+TEST CASE 2 – High Effort & High Cost
+
+Input:
+
+Impact = 3
+Urgency = 2
+Effort = 5
+Cost = 5
+
+Expected Output:
+
+Low priority score
+Project ranked lower
+
+Result: PASS
+
+TEST CASE 3 – All Equal Values
+
+All scores = 3
+
+Expected Output:
+Moderate priority
+Stable ranking
+
+TEST CASE 4 – Invalid Input
+
+Non-numeric values in CSV
+
+Expected Output:
+Error message shown
+
