@@ -3,7 +3,6 @@ import csv
 import io
 from flask import Flask, request, jsonify, render_template
 
-# Point Flask to the frontend folder for templates and static files
 FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "frontend"))
 
 app = Flask(
@@ -12,9 +11,6 @@ app = Flask(
     template_folder=os.path.join(FRONTEND_DIR, "templates"),
 )
 
-# ---------------------------------------------------------------------------
-# Configuration
-# ---------------------------------------------------------------------------
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -22,7 +18,6 @@ app.config["MAX_CONTENT_LENGTH"] = 2 * 1024 * 1024  # 2 MB limit
 
 ALLOWED_EXTENSIONS = {"csv"}
 
-# Scoring weights
 WEIGHTS = {
     "impact": 0.35,
     "urgency": 0.30,
@@ -60,10 +55,6 @@ def validate_row(row: dict, row_index: int) -> list:
 
 
 def calculate_priority_score(impact: float, urgency: float, effort: float, cost: float) -> float:
-    """
-    Calculate the weighted priority score.
-    Effort and Cost are inverted (6 - value) so higher values penalize priority.
-    """
     score = (
         impact * WEIGHTS["impact"]
         + urgency * WEIGHTS["urgency"]
@@ -74,7 +65,6 @@ def calculate_priority_score(impact: float, urgency: float, effort: float, cost:
 
 
 def get_priority_category(score: float) -> str:
-    """Categorize priority based on score thresholds."""
     if score >= 3.8:
         return "High"
     elif score >= 2.8:
@@ -84,7 +74,6 @@ def get_priority_category(score: float) -> str:
 
 
 def get_explanation(impact: float, urgency: float, effort: float, cost: float) -> str:
-    """Generate a human-readable explanation tag for the ranking."""
     tags = []
     if impact >= 4:
         tags.append("High Impact")
@@ -100,22 +89,13 @@ def get_explanation(impact: float, urgency: float, effort: float, cost: float) -
         tags.append("Expensive ⚠️")
     return ", ".join(tags) if tags else "Balanced"
 
-
-# ---------------------------------------------------------------------------
-# Routes
-# ---------------------------------------------------------------------------
 @app.route("/")
 def index():
-    """Serve the main HTML page."""
     return render_template("index.html")
 
 
 @app.route("/analyze", methods=["POST"])
 def analyze():
-    """
-    Accept a CSV upload, validate, score, rank, and return results as JSON.
-    """
-    # --- File presence check ---
     if "file" not in request.files:
         return jsonify({"error": "No file part in the request."}), 400
 
@@ -125,17 +105,13 @@ def analyze():
 
     if not allowed_file(file.filename):
         return jsonify({"error": "Invalid file format. Only .csv files are accepted."}), 400
-
-    # --- Read and parse CSV ---
     try:
         stream = io.StringIO(file.stream.read().decode("utf-8-sig"))
         reader = csv.DictReader(stream)
-
-        # Column validation
+        
         if reader.fieldnames is None:
             return jsonify({"error": "The uploaded CSV file appears to be empty."}), 400
-
-        # Strip whitespace from field names
+            
         reader.fieldnames = [f.strip() for f in reader.fieldnames]
         missing = REQUIRED_COLUMNS - set(reader.fieldnames)
         if missing:
@@ -153,7 +129,6 @@ def analyze():
     except csv.Error as e:
         return jsonify({"error": f"CSV parsing error: {str(e)}"}), 400
 
-    # --- Validate rows ---
     all_errors = []
     for idx, row in enumerate(rows, start=2):  # start=2 because row 1 is headers
         row_errors = validate_row(row, idx)
@@ -161,8 +136,7 @@ def analyze():
 
     if all_errors:
         return jsonify({"error": "Validation errors found:\n" + "\n".join(all_errors)}), 400
-
-    # --- Score and rank ---
+        
     results = []
     for row in rows:
         impact = float(row["Impact Score"].strip())
@@ -185,14 +159,11 @@ def analyze():
             "explanation": explanation,
         })
 
-    # Sort descending by priority score
     results.sort(key=lambda x: x["priority_score"], reverse=True)
 
-    # Add rank
     for rank, project in enumerate(results, start=1):
         project["rank"] = rank
-
-    # Summary stats
+        
     high = sum(1 for r in results if r["priority_category"] == "High")
     medium = sum(1 for r in results if r["priority_category"] == "Medium")
     low = sum(1 for r in results if r["priority_category"] == "Low")
@@ -205,8 +176,6 @@ def analyze():
     })
 
 
-# ---------------------------------------------------------------------------
-# Run
-# ---------------------------------------------------------------------------
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
