@@ -1,14 +1,6 @@
-/**
- * Startup Resource Allocation System — Frontend Logic
- * ====================================================
- * Handles CSV file upload, drag-and-drop, API communication,
- * and dynamic rendering of ranked results.
- */
-
 (function () {
     "use strict";
 
-    // DOM references
     const form = document.getElementById("upload-form");
     const fileInput = document.getElementById("file-input");
     const dropZone = document.getElementById("drop-zone");
@@ -29,7 +21,6 @@
     const barLow = document.getElementById("bar-low");
     const resultsBody = document.getElementById("results-body");
 
-    // ---- File Selection ----
     fileInput.addEventListener("change", handleFileSelect);
 
     function handleFileSelect() {
@@ -51,7 +42,6 @@
         analyzeBtn.disabled = true;
     }
 
-    // ---- Drag and Drop ----
     ["dragenter", "dragover"].forEach((evt) => {
         dropZone.addEventListener(evt, (e) => {
             e.preventDefault();
@@ -76,7 +66,6 @@
         }
     });
 
-    // ---- Error Handling ----
     function showError(msg) {
         errorText.textContent = msg;
         errorBanner.classList.remove("hidden");
@@ -89,7 +78,6 @@
 
     errorClose.addEventListener("click", hideError);
 
-    // ---- Form Submit ----
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         hideError();
@@ -100,13 +88,11 @@
             return;
         }
 
-        // Validate extension on client side
         if (!file.name.toLowerCase().endsWith(".csv")) {
             showError("Invalid file format. Only .csv files are accepted.");
             return;
         }
-
-        // Start loading
+        
         analyzeBtn.classList.add("loading");
         analyzeBtn.disabled = true;
 
@@ -136,39 +122,36 @@
         }
     });
 
-    // ---- Render Results ----
     function renderResults(data) {
         const { total_projects, summary, projects } = data;
 
-        // Summary cards
         animateCount(totalCount, total_projects);
         animateCount(highCount, summary.high);
         animateCount(mediumCount, summary.medium);
         animateCount(lowCount, summary.low);
 
-        // Priority distribution bar
+       
         const total = total_projects || 1;
         barHigh.style.width = `${(summary.high / total) * 100}%`;
         barMedium.style.width = `${(summary.medium / total) * 100}%`;
         barLow.style.width = `${(summary.low / total) * 100}%`;
 
-        // Table rows
+       
         resultsBody.innerHTML = "";
         projects.forEach((p) => {
             const tr = document.createElement("tr");
 
-            // Rank badge
+            
             let rankClass = "rank-other";
             if (p.rank === 1) rankClass = "rank-1";
             else if (p.rank === 2) rankClass = "rank-2";
             else if (p.rank === 3) rankClass = "rank-3";
 
-            // Score color class
+            
             let scoreClass = "score-medium";
             if (p.priority_category === "High") scoreClass = "score-high";
             else if (p.priority_category === "Low") scoreClass = "score-low";
 
-            // Badge class
             const badgeClass =
                 p.priority_category === "High"
                     ? "badge-high"
@@ -195,7 +178,6 @@
         resultsSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    // ---- Helpers ----
     function animateCount(el, target) {
         const duration = 800;
         const start = 0;
@@ -217,3 +199,4 @@
         return div.innerHTML;
     }
 })();
+
