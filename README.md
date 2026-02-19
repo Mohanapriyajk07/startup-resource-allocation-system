@@ -145,16 +145,14 @@ Starup allocationsysytem/
 ### Commands
 
 **Start the backend (serves both backend API + frontend):**
-```bash
+
 cd backend
 python app.py
-```
 
 Then open **http://localhost:5000** in your browser.
 
 > Flask serves the frontend files (HTML/CSS/JS) automatically from the `frontend/` folder. No separate frontend server is needed.
 
----
 
 ## 🧪 Testing
 
@@ -171,9 +169,8 @@ Use the included `sample_projects.csv` or create your own. Test scenarios:
 | Empty CSV (only headers)          | Error message: no data rows                |
 | Scores outside 1–5 range          | Error message with specific row number     |
 
----
 
-## 🛡 Error Handling
+##  Error Handling
 
 Basic validation is implemented to ensure reliability:
 
@@ -190,3 +187,4 @@ Basic validation is implemented to ensure reliability:
 ## 📜 License
 
 This project is for educational and demonstration purposes.
+
